@@ -22,6 +22,8 @@ void adc_initADCModule(void)
    PORTB_PCR1 |= PORT_PCR_MUX(0x00u);   //Temperature Sensor ADC0_DM0/ADC0_SE4a
    PORTE_PCR20 |= PORT_PCR_MUX(0x00u);
    PORTE_PCR21 |= PORT_PCR_MUX(0x00u);
+   PORTE_PCR23 |= PORT_PCR_MUX(0x00u);
+   PORTE_PCR22 |= PORT_PCR_MUX(0x00u);
 
    ADC0_CFG1 |= (ADC_CFG1_ADICLK(0x01u) | ADC_CFG1_MODE(0x00u) | ADC_CFG1_ADLSMP(0x0u) | ADC_CFG1_ADIV(0x0u) | ADC_CFG1_ADLPC(0x0u));
 
@@ -70,18 +72,25 @@ void adc_initConvertion(int isensor)
 	ADC0_SC1A = ADC_SC1_DIFF(0);
 
 	switch(isensor){
+
 		case 0:
+			ADC0_SC1A =ADC_SC1_ADCH(0x03u);
+			break;
+		case 1:
    			ADC0_SC1A =ADC_SC1_ADCH(0x08u);
    			break;
-   		case 1:
+   		case 2:
    			ADC0_SC1A = ADC_SC1_ADCH(0x09u);
    			break;
-   		case 2:
+   		case 3:
    			ADC0_SC1A = ADC_SC1_ADCH(0x00u);
    			break;
-   		case 3:
+   		case 4:
    			ADC0_SC1A = ADC_SC1_ADCH(0x04u);
    			break;
+   		case 5:
+			ADC0_SC1A = ADC_SC1_ADCH(0x07u);
+			break;
    		default:
    			break;
    	}

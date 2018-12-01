@@ -10,9 +10,9 @@ int reference_value = 0;
 /* Output params:      n/a                          */
 /* ************************************************ */
 void pid_init(PID_DATA *pid_data){
-	pid_data->Pgain = 1;
-	pid_data->Igain = 1;
-	pid_data->Dgain = 1;
+	pid_data->Pgain = 60;
+	pid_data->Igain = 15;
+	pid_data->Dgain = 0;
 	pid_data->sensor_value_previous = 0;
 	pid_data->error_sum = 0;
 }
@@ -52,6 +52,8 @@ double pid_Control(PID_DATA *pid_data, double sensor_value){
 	else if(Pterm + Iterm + Dterm >100){
 		return 100;
 	}
+	else if(Pterm + Iterm + Dterm == 0)
+		return 100;
 	else{
 		return (Pterm + Iterm + Dterm);
 	}

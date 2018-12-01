@@ -9,7 +9,7 @@
 #define SOURCES_PID_CONTROLE_H_
 
 
-void controle(int pos[4]);
+void controle(int pos[6]);
 
 
 #endif /* SOURCES_PID_CONTROLE_H_ */

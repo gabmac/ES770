@@ -1,4 +1,5 @@
 
+
 /* ***************************************************************** */
 
 #include "fsl_device_registers.h"
@@ -73,11 +74,33 @@ void qual_sensor(int i){
 	PUTCHAR(' ');
 }
 
+void imprime(int v){
+	int i;
+	PUTCHAR('A');
+	for(i = 0; i<3; i++){
+		int aux = 0;
+		if(i == 0){
+			aux = v/100;
+			PUTCHAR(aux+'0');
+			v = v%100;
+		}
+		else if(i == 1){
+			aux = v/10;
+			PUTCHAR(aux+'0');
+			v = v%10;
+		}
+		else{
+			PUTCHAR(v+'0');
+		}
+	}
+}
+
+
 
 int main(void)
 {
 
-	int branco = 1;
+ 	int branco = 0;// 0 linha branca
 	mcg_clockInit();
 	measure_Init();
     debugUart_init();
@@ -88,16 +111,20 @@ int main(void)
     /* configura ADC*/
     timer_initTPM1AsPWM();
     timer_MotorInit();
-    timer_changeMotorDirPwm(30);							/*começa desligado o cooler e o heater pwm*/
-    timer_changeMotorEsqPwm(30);
+    timer_changeMotorDirPwm(100);							/*começa desligado o cooler e o heater pwm*/
+    timer_changeMotorEsqPwm(100);
+    pid_Set(0);
+	PID_DATA pid_data;
+	pid_init(&pid_data);
+    int s1, s2;
 
 
-    int value[4];
+    int value[6];
     int i = 4;
     int valor;
     while(1){
 
-    	for(i=0;i<4;i++){
+    	for(i=0;i<6;i++){
     		qual_sensor(i);
 			valor =  heater_hal_StateMachine(i);
 			if(branco == 0){
@@ -128,4 +155,3 @@ int main(void)
     /* Never leave main */
     return 0;
 }
-
